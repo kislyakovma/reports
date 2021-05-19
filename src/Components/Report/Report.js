@@ -6,31 +6,17 @@ import { Excel } from "antd-table-saveas-excel";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
-const headers = {
-  Connection: "keep-alive",
-  "Cache-Control": "max-age=0",
-  "sec-ch-ua": "^\\^",
-  "sec-ch-ua-mobile": "?0",
-  "Upgrade-Insecure-Requests": "1",
-  Origin: "https://10.230.230.36",
-  "Content-Type": "application/x-www-form-urlencoded",
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36",
-  Accept:
-    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-  "Sec-Fetch-Site": "same-origin",
-  "Sec-Fetch-Mode": "navigate",
-  "Sec-Fetch-User": "?1",
-  "Sec-Fetch-Dest": "document",
-  Referer: "https://10.230.230.36/admin/config.php?display=cdr",
-  "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-};
-
-const params = [["display", "cdr"]];
+axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 
 function Report(props) {
   const getData = (number, days) => {
-    let data = {
+    var data = JSON.stringify({
       startday: "2021-05-13",
       startmonth: "2021-05-13",
       startyear: "2021-05-13",
@@ -66,16 +52,18 @@ function Report(props) {
       disposition: "all",
       sort: "DESC",
       group: "day",
-    };
+    });
 
-    axios
-      .post("https://10.230.230.36/admin/config.php", {
-        headers: headers,
-        params: params,
-        data: data,
-        verify: false,
-        auth: { username: "mkislyakov", password: "Mk123456" },
-      })
+    var config = {
+      method: "post",
+      url: "https://10.230.230.36/admin/config.php?display=cdr",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: "lang=en_US; PHPSESSID=ubmo0vnhk4i1kum0pgok76gpo1",
+      },
+      data: data,
+    };
+    axios(config)
       .then((res) => {
         console.log(res);
         setExp(false);
