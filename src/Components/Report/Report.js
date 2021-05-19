@@ -6,14 +6,6 @@ import { Excel } from "antd-table-saveas-excel";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
 
-axios(config)
-  .then(function (response) {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 function Report(props) {
   const getData = (number, days) => {
     var data = JSON.stringify({
