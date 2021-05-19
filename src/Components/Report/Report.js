@@ -5,6 +5,12 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Excel } from "antd-table-saveas-excel";
 const { RangePicker } = DatePicker;
 const { Search } = Input;
+import AxiosDigestAuth, { AxiosDigestAuthOpts } from "@mhoc/axios-digest-auth";
+
+const digestAuthOpts: AxiosDigestAuthOpts = {
+  password: "Mk123456",
+  username: "mkislyakov",
+};
 
 function Report(props) {
   const getData = (number, days) => {
@@ -55,17 +61,13 @@ function Report(props) {
       },
       data: data,
     };
-    axios(config)
-      .then((res) => {
-        console.log(res);
-        setExp(false);
-        setTloading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setExp(false);
-        setTloading(false);
-      });
+    const digestAuth = new AxiosDigestAuth(digestAuthOpts);
+
+    // this is a normal axios request object
+    const requestOpts: axios.AxiosRequestConfig = config;
+    digestAuth.request(requestOpts).then((res) => {
+      console.log(res);
+    });
   };
   const [tLoading, setTloading] = useState(true);
   const [number, setNumber] = useState(156);
